@@ -37,8 +37,6 @@ contract NFT is ERC721 {
     }
 
     function mintNFT(NFTType _nftType) external {
-        require(_nftType != NFTType.VIP, "Cannot mint VIP randomly");
-
         uint256 price = nftBasePrices[_nftType];
         require(price > 0, "Invalid NFT type");
 
@@ -88,7 +86,7 @@ contract NFT is ERC721 {
         }
     }
 
-    function nftDetailsOf(uint256 _tokenId) external view returns (NFTInfo memory) {
+    function getNFTDetails(uint256 _tokenId) external view returns (NFTInfo memory) {
         return nftDetails[_tokenId];
     }
 }
