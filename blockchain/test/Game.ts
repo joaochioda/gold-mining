@@ -5,24 +5,24 @@ import {
   Game__factory,
   GMINE,
   GMINE__factory,
-  NFT,
-  NFT__factory,
+  MockNFT,
+  MockNFT__factory,
 } from "../typechain-types";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 
 describe("Game Contract", function () {
   let GameFactory: Game__factory;
   let GMINEFactory: GMINE__factory;
-  let NFTFactory: NFT__factory;
+  let NFTFactory: MockNFT__factory;
   let game: Game;
   let gmine: GMINE;
-  let nft: NFT;
+  let nft: MockNFT;
   let user2: SignerWithAddress;
   let user: SignerWithAddress;
 
   beforeEach(async function () {
     GMINEFactory = await ethers.getContractFactory("GMINE");
-    NFTFactory = await ethers.getContractFactory("NFT");
+    NFTFactory = await ethers.getContractFactory("MockNFT");
     GameFactory = await ethers.getContractFactory("Game");
 
     [user2, user] = await ethers.getSigners();
@@ -30,9 +30,10 @@ describe("Game Contract", function () {
     game = (await GameFactory.deploy()) as Game;
 
     gmine = (await GMINEFactory.deploy(game.getAddress())) as GMINE;
-    nft = (await NFTFactory.deploy(gmine.getAddress())) as NFT;
+    nft = (await NFTFactory.deploy(gmine.getAddress())) as MockNFT;
 
     await game.setContracts(gmine.getAddress(), nft.getAddress());
+    await nft.setMockedRarity(0);
   });
 
   async function mintNFTAndStakeAnd(tokenId: number, time: number) {
@@ -66,6 +67,44 @@ describe("Game Contract", function () {
     const reward = await game.rewardsPerDay(0); // Worker reward
     const epsilon = 100000000000000n;
     expect(userBalance).to.be.closeTo(reward, epsilon);
+  });
+
+  it("should receive 25% + rewards for rarity 1", async function () {
+    await nft.setMockedRarity(1);
+
+    const tokenId = 1;
+    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60);
+    const userBalance = await gmine.balanceOf(user.address);
+
+    let reward = await game.rewardsPerDay(0);
+    reward = reward + reward / 4n;
+    const epsilon = 100000000000000n;
+    expect(userBalance).to.be.closeTo(reward, epsilon);
+  });
+
+  it("should receive 50% + rewards for rarity 2", async function () {
+    await nft.setMockedRarity(2);
+
+    const tokenId = 1;
+    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60);
+    const userBalance = await gmine.balanceOf(user.address);
+
+    let reward = await game.rewardsPerDay(0);
+    reward = reward + reward / 2n;
+    const epsilon = 100000000000000n;
+    expect(userBalance).to.be.closeTo(reward, epsilon);
+  });
+
+  it("should receive double rewards for rarity 3", async function () {
+    await nft.setMockedRarity(3);
+
+    const tokenId = 1;
+    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60);
+    const userBalance = await gmine.balanceOf(user.address);
+
+    const reward = await game.rewardsPerDay(0);
+    const epsilon = 100000000000000n;
+    expect(userBalance).to.be.closeTo(reward * 2n, epsilon);
   });
 
   it("should double rewards when VIP NFT is staked", async function () {

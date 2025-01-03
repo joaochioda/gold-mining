@@ -82,6 +82,16 @@ contract Game is Ownable {
 
     uint256 timeStaked = block.timestamp - stake.stakedAt;
     uint256 dailyReward = rewardsPerDay[nftContract.nftDetails(tokenId).nftType];
+    INFT.Rarity rarity = nftContract.nftDetails(tokenId).rarity;
+    
+    if (rarity == INFT.Rarity.Uncommon) {
+          dailyReward = (dailyReward * 125) / 100; // 25% a mais
+      } else if (rarity == INFT.Rarity.Rare) {
+          dailyReward = (dailyReward * 150) / 100; // 50% a mais
+      } else if (rarity == INFT.Rarity.Epic) {
+          dailyReward = dailyReward * 2; // 100% a mais
+      }
+
     uint256 reward = (timeStaked * dailyReward) / SECONDS_IN_A_DAY;
 
     if (hasVIPStaked[owner]) {

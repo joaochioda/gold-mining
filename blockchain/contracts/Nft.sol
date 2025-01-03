@@ -86,7 +86,7 @@ contract NFT is ERC721 {
         });
     }
 
-    function _determineRarity() internal view returns (Rarity) {
+    function _determineRarity() internal view virtual returns (Rarity) {
         uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, block.prevrandao, _nextTokenId))) % 100;
 
         if (rand < 50) {
