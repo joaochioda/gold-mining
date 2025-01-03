@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 interface IGMINE {
     function transferFrom(address sender, address recipient, uint256 amount) external;
+    function balanceOf(address account) external view returns (uint256);
 }
 
 contract NFT is ERC721 {
@@ -39,6 +40,10 @@ contract NFT is ERC721 {
     function mintNFT(NFTType _nftType) external {
         uint256 price = nftBasePrices[_nftType];
         require(price > 0, "Invalid NFT type");
+
+        uint256 balance = tokenContract.balanceOf(msg.sender);
+
+        require(balance >= price, "Insufficient balance");
 
         tokenContract.transferFrom(msg.sender, address(this), price);
 

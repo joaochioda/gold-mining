@@ -63,47 +63,47 @@ describe("GameNFT Contract", function () {
     expect(details.nftType).to.equal(3); // VIP
     expect(details.rarity).to.equal(0); // Normal
   });
-  /*
+
   it("should deduct tokens from user balance after minting", async function () {
-        // Transfer tokens to user
-        await gmine.distributeTokens(user.address, ethers.utils.parseEther("10"));
-        await gmine.connect(user).approve(gameNFT.address, ethers.utils.parseEther("1"));
+    await gmine.distributeTokens(user.address, ethers.parseEther("10"));
+    await gmine
+      .connect(user)
+      .approve(gameNFT.getAddress(), ethers.parseEther("1"));
 
-        const initialBalance = await gmine.balanceOf(user.address);
+    const initialBalance = await gmine.balanceOf(user.address);
+    await gameNFT.connect(user).mintNFT(0);
 
-        // Mint a Worker NFT
-        await gameNFT.connect(user).mintNFT(0);
+    const finalBalance = await gmine.balanceOf(user.address);
+    expect(finalBalance).to.equal(initialBalance - ethers.parseEther("1"));
+  });
 
-        const finalBalance = await gmine.balanceOf(user.address);
-        expect(finalBalance).to.equal(initialBalance.sub(ethers.utils.parseEther("1")));
-    });
-  
+  it("should reject minting if user does not have enough tokens", async function () {
+    await gmine
+      .connect(user)
+      .approve(gameNFT.getAddress(), ethers.parseEther("1"));
 
-     it("should reject minting if user does not have enough tokens", async function () {
-        // No tokens transferred to user
-        await gmine.connect(user).approve(gameNFT.address, ethers.utils.parseEther("1"));
+    await expect(gameNFT.connect(user).mintNFT(0)).to.be.revertedWith(
+      "Insufficient balance"
+    );
+  });
 
-        await expect(gameNFT.connect(user).mintNFT(0)).to.be.revertedWith("ERC20: transfer amount exceeds balance");
-    });
+  it("should assign rarities with correct probabilities (approximation)", async function () {
+    const rarityCount = [0, 0, 0, 0]; // Normal, Uncommon, Rare, Epic
 
-        it("should assign rarities with correct probabilities (approximation)", async function () {
-        const rarityCount = [0, 0, 0, 0]; // Normal, Uncommon, Rare, Epic
+    await gmine.distributeTokens(user.address, ethers.parseEther("100"));
+    await gmine
+      .connect(user)
+      .approve(gameNFT.getAddress(), ethers.parseEther("100"));
 
-        await gmine.distributeTokens(user.address, ethers.utils.parseEther("500"));
-        await gmine.connect(user).approve(gameNFT.address, ethers.utils.parseEther("500"));
+    for (let i = 0; i < 100; i++) {
+      await gameNFT.connect(user).mintNFT(0);
+      const details = await gameNFT.getNFTDetails(i + 1);
+      rarityCount[Number(details.rarity)]++;
+    }
 
-        for (let i = 0; i < 1000; i++) {
-            await gameNFT.connect(user).mintNFT(0);
-            const details = await gameNFT.getNFTDetails(i + 1);
-            rarityCount[details.rarity]++;
-        }
-
-        console.log("Rarity distribution:", rarityCount);
-        // Approximate validation
-        expect(rarityCount[0]).to.be.within(400, 600); // Normal (50%)
-        expect(rarityCount[1]).to.be.within(200, 400); // Uncommon (30%)
-        expect(rarityCount[2]).to.be.within(100, 200); // Rare (15%)
-        expect(rarityCount[3]).to.be.within(0, 100);   // Epic (5%)
-    });
-  */
+    expect(rarityCount[0]).to.be.within(40, 60); // Normal (50%)
+    expect(rarityCount[1]).to.be.within(20, 40); // Uncommon (30%)
+    expect(rarityCount[2]).to.be.within(10, 20); // Rare (15%)
+    expect(rarityCount[3]).to.be.within(0, 10); // Epic (5%)
+  });
 });
