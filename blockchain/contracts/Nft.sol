@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+// import "hardhat/console.sol";
 
 interface IGMINE {
     function transferFrom(address sender, address recipient, uint256 amount) external;
@@ -22,6 +23,7 @@ contract NFT is ERC721 {
 
     mapping(uint256 => NFTInfo) public nftDetails;
     mapping(NFTType => uint256) public nftBasePrices;
+    mapping(address => bool) public hasMintedWorker;
 
     uint256 private _nextTokenId;
 
@@ -38,14 +40,21 @@ contract NFT is ERC721 {
     }
 
     function mintNFT(NFTType _nftType) external {
-        uint256 price = nftBasePrices[_nftType];
+         uint256 price = nftBasePrices[_nftType];
         require(price > 0, "Invalid NFT type");
 
-        uint256 balance = tokenContract.balanceOf(msg.sender);
+        // Check if it's the first Worker NFT for the user
+        if (_nftType == NFTType.Worker && !hasMintedWorker[msg.sender]) {
+            price = 0; // Free for the first Worker NFT
+            hasMintedWorker[msg.sender] = true; // Mark as minted
+        }
 
-        require(balance >= price, "Insufficient balance");
-
-        tokenContract.transferFrom(msg.sender, address(this), price);
+        // Ensure user has enough balance if not free
+        if (price > 0) {
+            uint256 balance = tokenContract.balanceOf(msg.sender);
+            require(balance >= price, "Insufficient balance");
+            tokenContract.transferFrom(msg.sender, address(tokenContract), price);
+        }
 
         Rarity rarity = _determineRarity();
 
@@ -64,7 +73,7 @@ contract NFT is ERC721 {
         uint256 price = nftBasePrices[NFTType.VIP];
         require(price > 0, "Invalid VIP price");
 
-        tokenContract.transferFrom(msg.sender, address(this), price);
+        tokenContract.transferFrom(msg.sender, address(tokenContract), price);
 
         uint256 tokenId = _nextTokenId;
         _nextTokenId++;

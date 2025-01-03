@@ -64,13 +64,14 @@ describe("GameNFT Contract", function () {
     expect(details.rarity).to.equal(0); // Normal
   });
 
-  it("should deduct tokens from user balance after minting", async function () {
+  it("should deduct tokens from user balance after minting 2 workers", async function () {
     await gmine.distributeTokens(user.address, ethers.parseEther("10"));
     await gmine
       .connect(user)
-      .approve(gameNFT.getAddress(), ethers.parseEther("1"));
+      .approve(gameNFT.getAddress(), ethers.parseEther("2"));
 
     const initialBalance = await gmine.balanceOf(user.address);
+    await gameNFT.connect(user).mintNFT(0);
     await gameNFT.connect(user).mintNFT(0);
 
     const finalBalance = await gmine.balanceOf(user.address);
@@ -82,7 +83,7 @@ describe("GameNFT Contract", function () {
       .connect(user)
       .approve(gameNFT.getAddress(), ethers.parseEther("1"));
 
-    await expect(gameNFT.connect(user).mintNFT(0)).to.be.revertedWith(
+    await expect(gameNFT.connect(user).mintNFT(1)).to.be.revertedWith(
       "Insufficient balance"
     );
   });

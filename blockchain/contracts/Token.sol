@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+// import "hardhat/console.sol";
 
 contract GMINE is ERC20 {
     address public authorizedAddress;
