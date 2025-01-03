@@ -17,7 +17,6 @@ describe("Game Contract", function () {
   let game: Game;
   let gmine: GMINE;
   let nft: MockNFT;
-  let user2: SignerWithAddress;
   let user: SignerWithAddress;
 
   beforeEach(async function () {
@@ -25,7 +24,7 @@ describe("Game Contract", function () {
     NFTFactory = await ethers.getContractFactory("MockNFT");
     GameFactory = await ethers.getContractFactory("Game");
 
-    [user2, user] = await ethers.getSigners();
+    [user] = await ethers.getSigners();
 
     game = (await GameFactory.deploy()) as Game;
 
