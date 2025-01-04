@@ -15,3 +15,5 @@ npx hardhat ignition deploy ./ignition/modules/Lock.ts
 npx hardhat typechain  
 npx hardhat test  
 npx hardhat compile
+
+npx hardhat run scripts/deployGame.ts --network bscTestnet
