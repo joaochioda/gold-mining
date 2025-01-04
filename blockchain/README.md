@@ -1,19 +1,25 @@
-# Sample Hardhat Project
+# Blockchain for GMINE
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+## Game contract deployed on bsc - testnet
 
-Try running some of the following tasks:
+`0xa9507E123219fc410B21543b0f0A912538a76aDA`
+
+## Some usefuls commands
 
 ```shell
-npx hardhat help
-npx hardhat test
 REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.ts
+npx hardhat typechain
+npx hardhat compile
 ```
 
-npx hardhat typechain  
-npx hardhat test  
-npx hardhat compile
+## Flat contract
 
-npx hardhat run scripts/deployGame.ts --network bscTestnet
+`npx hardhat flatten ./contracts/Game.sol > ./flattened/GameFlattened.sol`
+
+## Deploy contract
+
+`npx hardhat run scripts/deployGame.ts --network bscTestnet`
+
+## Verify contract
+
+`npx hardhat verify --network bscTestnet <contract>`
