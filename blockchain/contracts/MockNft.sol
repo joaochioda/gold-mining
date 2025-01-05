@@ -6,7 +6,7 @@ import "./Nft.sol";
 contract MockNFT is NFT {
     Rarity private _mockedRarity;
 
-    constructor(address _tokenContract) NFT(_tokenContract) {}
+    constructor() NFT() {}
 
     function setMockedRarity(Rarity rarity) external {
         _mockedRarity = rarity;

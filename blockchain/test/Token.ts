@@ -15,7 +15,8 @@ describe("GMINE Token", function () {
       await ethers.getSigners();
 
     const TokenFactory = await ethers.getContractFactory("GMINE");
-    gmine = (await TokenFactory.deploy(authorizedAddress.address)) as GMINE;
+    gmine = (await TokenFactory.deploy()) as GMINE;
+    await gmine.setAuthorizedAddress(authorizedAddress.address);
   });
 
   describe("Minting and Contract Balance", function () {

@@ -4,13 +4,13 @@ async function main() {
   console.log("Iniciando o deploy do contrato...");
 
   try {
-    const Game = await ethers.getContractFactory("Game");
+    const GMINE = await ethers.getContractFactory("GMINE");
     console.log("Factory do contrato obtida com sucesso.");
 
-    const game = await Game.deploy();
+    const token = await GMINE.deploy();
     console.log("Deploy iniciado, aguardando confirmação...");
 
-    const address = await game.getAddress();
+    const address = await token.getAddress();
     console.log("Contrato implantado com sucesso!");
     console.log(`Endereço do contrato: ${address}`);
   } catch (error) {

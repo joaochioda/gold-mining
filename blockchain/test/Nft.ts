@@ -14,10 +14,12 @@ describe("GameNFT Contract", function () {
   beforeEach(async function () {
     GMINE = await ethers.getContractFactory("GMINE");
     [owner, user] = await ethers.getSigners();
-    gmine = (await GMINE.deploy(owner.address)) as GMINE;
+    gmine = (await GMINE.deploy()) as GMINE;
+    await gmine.setAuthorizedAddress(owner.address);
 
     GameNFT = await ethers.getContractFactory("NFT");
-    gameNFT = (await GameNFT.deploy(gmine.getAddress())) as NFT;
+    gameNFT = (await GameNFT.deploy()) as NFT;
+    await gameNFT.setAuthorizedAddress(gmine.getAddress());
   });
 
   it("should set initial prices correctly", async function () {

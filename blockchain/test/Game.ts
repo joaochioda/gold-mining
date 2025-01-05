@@ -28,10 +28,12 @@ describe("Game Contract", function () {
 
     game = (await GameFactory.deploy()) as Game;
 
-    gmine = (await GMINEFactory.deploy(game.getAddress())) as GMINE;
-    nft = (await NFTFactory.deploy(gmine.getAddress())) as MockNFT;
+    gmine = (await GMINEFactory.deploy()) as GMINE;
+    nft = (await NFTFactory.deploy()) as MockNFT;
 
     await game.setContracts(gmine.getAddress(), nft.getAddress());
+    await gmine.setAuthorizedAddress(game.getAddress());
+    await nft.setAuthorizedAddress(gmine.getAddress());
     await nft.setMockedRarity(0);
   });
 

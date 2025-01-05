@@ -10,7 +10,7 @@ interface IGMINE {
     function balanceOf(address account) external view returns (uint256);
 }
 
-contract NFT is ERC721 {
+contract NFT is ERC721, Ownable {
     IGMINE public tokenContract;
 
     enum NFTType { Worker, Machine1, Machine2, VIP }
@@ -27,9 +27,7 @@ contract NFT is ERC721 {
 
     uint256 private _nextTokenId;
 
-    constructor(address _tokenContract) ERC721("NFT", "GNFT") {
-        require(_tokenContract != address(0), "Invalid token contract address");
-        tokenContract = IGMINE(_tokenContract);
+    constructor() Ownable(msg.sender) ERC721("NFT", "GNFT") {
 
         nftBasePrices[NFTType.Worker] = 1 * 10 ** 18;
         nftBasePrices[NFTType.Machine1] = 4 * 10 ** 18;
@@ -37,6 +35,12 @@ contract NFT is ERC721 {
         nftBasePrices[NFTType.VIP] = 20 * 10 ** 18;
 
         _nextTokenId = 1;
+    }
+
+    function setAuthorizedAddress(address _tokenContract) external onlyOwner {
+        require(_tokenContract != address(0), "Invalid GMINE token address");
+
+        tokenContract = IGMINE(_tokenContract);
     }
 
     function mintNFT(NFTType _nftType) external {
