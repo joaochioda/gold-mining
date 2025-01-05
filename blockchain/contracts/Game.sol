@@ -69,15 +69,25 @@ contract Game is Ownable {
     }
   }
 
-  function claimRewards(uint256 tokenId) external {
-    require(stakedNFTs[msg.sender].contains(tokenId), "NFT not staked by sender");
+  function claimRewards() external {
+    uint256 totalRewards = 0;
+    address account = msg.sender;
 
-    _distributeRewards(msg.sender, tokenId);
+    uint256 length = stakedNFTs[account].length();
 
-    stakes[tokenId].stakedAt = block.timestamp;
+    for (uint256 i = 0; i < length; i++) {
+      uint256 reward = calculateReward(stakedNFTs[account].at(i), account);
+
+      totalRewards += reward;
+      stakes[stakedNFTs[account].at(i)].stakedAt = block.timestamp;
+    }
+    if (totalRewards > 0) {
+      gmineToken.distributeTokens(account, totalRewards);
+    }
+
   }
 
-  function _distributeRewards(address owner, uint256 tokenId) internal {
+  function calculateReward(uint256 tokenId, address owner) internal view returns (uint256) {
     StakeInfo memory stake = stakes[tokenId];
 
     uint256 timeStaked = block.timestamp - stake.stakedAt;
@@ -98,16 +108,49 @@ contract Game is Ownable {
       reward *= 2;
     }
 
-    if (reward > 0) {
-      gmineToken.distributeTokens(owner, reward);
-    }
+    return reward;
   }
 
-  function getStakedNFTs(address account) external view returns (uint256[] memory) {
-    uint256[] memory tokenIds = new uint256[](stakedNFTs[account].length());
-    for (uint256 i = 0; i < stakedNFTs[account].length(); i++) {
-        tokenIds[i] = stakedNFTs[account].at(i);
-    }
-    return tokenIds;
+  function getStakedNFTs() external view returns (
+    uint256[] memory tokenIds,
+    INFT.NFTType[] memory nftTypes,
+    INFT.Rarity[] memory rarities,
+    uint256[] memory stakedAts,
+    uint256[] memory rewards
+  ) {
+      address account = msg.sender;
+      uint256 length = stakedNFTs[account].length();
+      tokenIds = new uint256[](length);
+      nftTypes = new INFT.NFTType[](length);
+      rarities = new INFT.Rarity[](length);
+      stakedAts = new uint256[](length);
+      rewards = new uint256[](length);
+
+      for (uint256 i = 0; i < length; i++) {
+          uint256 tokenId = stakedNFTs[account].at(i);
+          INFT.NFTInfo memory nftInfo = nftContract.nftDetails(tokenId);
+          
+          tokenIds[i] = tokenId;
+          nftTypes[i] = nftInfo.nftType;
+          rarities[i] = nftInfo.rarity;
+          stakedAts[i] = stakes[tokenId].stakedAt;
+          rewards[i] = calculateReward(tokenId, account);
+      }
   }
+
+  function calculateTotalRewards() external view returns (uint256) {
+    uint256 totalRewards = 0;
+    address account = msg.sender;
+
+    uint256 length = stakedNFTs[account].length();
+
+    for (uint256 i = 0; i < length; i++) {
+      uint256 reward = calculateReward(stakedNFTs[account].at(i), account);
+
+      totalRewards += reward;
+    }
+
+    return totalRewards;
+  }
+
 }

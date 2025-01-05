@@ -37,32 +37,66 @@ describe("Game Contract", function () {
     await nft.setMockedRarity(0);
   });
 
-  async function mintNFTAndStakeAnd(tokenId: number, time: number) {
+  async function mintNFTAndStakeAndClaim(tokenId: number, time: number) {
+    await mintNFTAndStake(tokenId, time);
+
+    await game.connect(user).claimRewards();
+  }
+
+  async function mintNFT(tokenId: number, type = 0) {
+    await nft.connect(user).mintNFT(type);
+
+    await nft.connect(user).approve(game.getAddress(), tokenId);
+    await game.connect(user).stakeNFT(tokenId);
+  }
+
+  async function mintNFTAndStake(tokenId: number, time: number) {
     await nft.connect(user).mintNFT(0);
 
     await nft.connect(user).approve(game.getAddress(), tokenId);
     await game.connect(user).stakeNFT(tokenId);
 
+    await passTime(time);
+  }
+
+  async function passTime(time: number) {
     await ethers.provider.send("evm_increaseTime", [time]);
     await ethers.provider.send("evm_mine", []);
-
-    await game.connect(user).claimRewards(tokenId);
   }
 
   it("should allow staking of an NFT", async function () {
-    await nft.connect(user).mintNFT(0); // Mint a Worker NFT
-    const tokenId = 1;
+    await gmine
+      .connect(user)
+      .approve(nft.getAddress(), ethers.parseEther("100"));
 
-    await nft.connect(user).approve(user.getAddress(), tokenId);
-    await game.connect(user).stakeNFT(tokenId);
+    await mintNFTAndStakeAndClaim(1, 24 * 60 * 60 * 10);
 
-    const stakedNFTs = await game.getStakedNFTs(user.address);
-    expect(stakedNFTs[0]).to.equal(tokenId);
+    await nft.setMockedRarity(3);
+
+    await mintNFT(2, 1);
+    await passTime(24 * 60 * 60);
+
+    const stakedNFTs = await game.getStakedNFTs();
+    const totalRewards = await game.connect(user).calculateTotalRewards();
+
+    expect(stakedNFTs[0][0]).to.equal(1n);
+    expect(stakedNFTs[0][1]).to.equal(2n);
+
+    expect(stakedNFTs[1][0]).to.equal(0);
+    expect(stakedNFTs[1][1]).to.equal(1n);
+
+    expect(stakedNFTs[2][0]).to.equal(0);
+    expect(stakedNFTs[2][1]).to.equal(3n);
+
+    expect(stakedNFTs[4][0]).to.equal(1000046296296296296n);
+    expect(stakedNFTs[4][1]).to.equal(8000000000000000000n);
+
+    expect(totalRewards).to.equal(9000046296296296296n);
   });
 
   it("should correctly calculate rewards for staked NFT", async function () {
     const tokenId = 1;
-    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60);
+    await mintNFTAndStakeAndClaim(tokenId, 24 * 60 * 60);
     const userBalance = await gmine.balanceOf(user.address);
 
     const reward = await game.rewardsPerDay(0); // Worker reward
@@ -74,7 +108,7 @@ describe("Game Contract", function () {
     await nft.setMockedRarity(1);
 
     const tokenId = 1;
-    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60);
+    await mintNFTAndStakeAndClaim(tokenId, 24 * 60 * 60);
     const userBalance = await gmine.balanceOf(user.address);
 
     let reward = await game.rewardsPerDay(0);
@@ -87,7 +121,7 @@ describe("Game Contract", function () {
     await nft.setMockedRarity(2);
 
     const tokenId = 1;
-    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60);
+    await mintNFTAndStakeAndClaim(tokenId, 24 * 60 * 60);
     const userBalance = await gmine.balanceOf(user.address);
 
     let reward = await game.rewardsPerDay(0);
@@ -100,7 +134,7 @@ describe("Game Contract", function () {
     await nft.setMockedRarity(3);
 
     const tokenId = 1;
-    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60);
+    await mintNFTAndStakeAndClaim(tokenId, 24 * 60 * 60);
     const userBalance = await gmine.balanceOf(user.address);
 
     const reward = await game.rewardsPerDay(0);
@@ -114,7 +148,7 @@ describe("Game Contract", function () {
       .approve(nft.getAddress(), ethers.parseEther("100"));
 
     const tokenId = 1;
-    await mintNFTAndStakeAnd(tokenId, 24 * 60 * 60 * 50);
+    await mintNFTAndStakeAndClaim(tokenId, 24 * 60 * 60 * 50);
 
     await nft.connect(user).mintVIP(); // Mint a VIP NFT
     const vipTokenId = 2;
@@ -129,23 +163,13 @@ describe("Game Contract", function () {
     await ethers.provider.send("evm_increaseTime", [twoDays]);
     await ethers.provider.send("evm_mine", []);
 
-    await game.connect(user).claimRewards(tokenId);
-    await game.connect(user).claimRewards(vipTokenId);
+    await game.connect(user).claimRewards();
+    await game.connect(user).claimRewards();
 
     const userBalance = await gmine.balanceOf(user.address);
 
     const epsilon = 100000000000000n;
     expect(userBalance).to.be.closeTo(34000000000000000000n, epsilon);
-  });
-
-  it("should prevent claiming rewards for unstaked NFT", async function () {
-    await mintNFTAndStakeAnd(1, 24 * 60 * 60);
-
-    const tokenId = 2;
-
-    await expect(game.connect(user).claimRewards(tokenId)).to.be.revertedWith(
-      "NFT not staked by sender"
-    );
   });
 
   it("should correctly update staking time after claiming rewards", async function () {
@@ -154,10 +178,32 @@ describe("Game Contract", function () {
     const time = await ethers.provider.getBlock("latest");
     const epsilon = day + 30;
 
-    await mintNFTAndStakeAnd(tokenId, day);
+    await mintNFTAndStakeAndClaim(tokenId, day);
 
     const stakeInfo = await game.stakes(tokenId);
 
     expect(stakeInfo).to.be.closeTo(time?.timestamp, epsilon);
+  });
+
+  it("should correctly calculate total rewards for all staked NFTs", async function () {
+    await gmine
+      .connect(user)
+      .approve(nft.getAddress(), ethers.parseEther("100"));
+
+    await mintNFTAndStakeAndClaim(1, 24 * 60 * 60 * 10);
+    await mintNFT(2);
+    await mintNFT(3);
+    await mintNFT(4);
+
+    await passTime(24 * 60 * 60);
+
+    const baseReward = await game.rewardsPerDay(0);
+
+    const expectedTotalReward = baseReward * 4n;
+
+    const totalRewards = await game.connect(user).calculateTotalRewards();
+
+    const epsilon = 1000000000000000n;
+    expect(totalRewards).to.be.closeTo(expectedTotalReward, epsilon);
   });
 });
