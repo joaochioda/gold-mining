@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+  .light {
+    --primary: 255, 87, 51;
+    --primary-text: #343a40;
+    --primary-icon: #ff5733;
+    --primary-button-text: #f8f9fa;
+    background-color: #f8f9fa;
+    --nprogress-color: #ff5733;
+  }
+
+  .dark {
+    --primary: 255, 255, 255;
+    --primary-text: #f8f9fa;
+    --primary-icon: #f8f9fa;
+    --primary-button-text: #343a40;
+    background-color: #343a40;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    --nprogress-color: white;
+  }
+}
+#nprogress .bar {
+  background: var(--nprogress-color) !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px var(--nprogress-color), 0 0 5px var(--nprogress-color) !important;
+}
