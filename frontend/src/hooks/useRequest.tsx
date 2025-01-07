@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import useSWR from "swr";
-import { api } from "../services/api";
+import { api } from "../services/token";
 import { mutate } from "swr";
 
 type FetcherParams = {

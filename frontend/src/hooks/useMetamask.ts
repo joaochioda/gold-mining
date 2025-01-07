@@ -79,8 +79,6 @@ const useMetamask = () => {
   };
 
   useEffect(() => {
-    // checkIfWalletIsConnected();
-
     if (typeof window.ethereum !== "undefined") {
       window.ethereum.on("accountsChanged", handleAccounts);
       window.ethereum.on("chainChanged", () => {
