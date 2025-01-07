@@ -13,13 +13,13 @@ export default function NftList() {
   function handleDataNft() {
     if (data) {
       let nfts = [];
-      for (let i = 0; i < data.length; i += 5) {
+      for (let i = 0; i < data[0].length; i++) {
         nfts.push({
-          id: data[i],
-          type: data[i + 1],
-          rarity: data[i + 2],
-          stakedAt: data[i + 3],
-          rewards: data[i + 4],
+          id: data[0][i],
+          type: data[1][i],
+          rarity: data[2][i],
+          stakedAt: data[3][i],
+          rewards: data[4][i],
         });
       }
       return nfts;
@@ -52,8 +52,10 @@ export default function NftList() {
     return typeDict[type];
   }
 
-  function timeStampToDate(timestamp: number) {
-    const date = new Date(timestamp * 1000);
+  function timeStampToDate(timestamp: BigInt) {
+    const timestampString = timestamp.toString();
+
+    const date = new Date(Number(timestampString) * 1000);
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();

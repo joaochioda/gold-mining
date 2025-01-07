@@ -57,9 +57,7 @@ export default function ThemeLayout({
       {noHeaderPaths.includes(pathname) ? (
         children
       ) : (
-        <>
-          <Header>{children}</Header>
-        </>
+        <Header>{children}</Header>
       )}
     </div>
   );

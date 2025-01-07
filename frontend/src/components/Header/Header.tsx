@@ -19,15 +19,13 @@ const items = [
 
 export default function Header({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <SidebarProvider>
-        <SidebarHeader items={items} />
-        <div className="w-full">
-          <SidebarTrigger className="flex sm:hidden" />
-          <MenuBarHeader items={items} />
-          {children}
-        </div>
-      </SidebarProvider>
-    </>
+    <SidebarProvider>
+      <SidebarHeader items={items} />
+      <div className="w-full">
+        <SidebarTrigger className="flex sm:hidden" />
+        <MenuBarHeader items={items} />
+        {children}
+      </div>
+    </SidebarProvider>
   );
 }
