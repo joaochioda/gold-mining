@@ -4,12 +4,11 @@
 
 import { useEffect } from "react";
 import { ethers } from "ethers";
-import { useUserStore } from "@/stores/userStore";
+
 import { useRouter } from "next/navigation";
-import { setCookie, getCookie } from "@/utils";
+import { setCookieAddress, getCookie } from "@/utils";
 
 const useMetamask = () => {
-  const { user, setUser } = useUserStore();
   const router = useRouter();
 
   const handleAccounts = async (accounts: string[]) => {
@@ -18,15 +17,13 @@ const useMetamask = () => {
       const network = await provider.getNetwork();
 
       if (network.chainId === 97n) {
-        setUser(accounts[0]);
-        setCookie(true);
+        setCookieAddress(accounts[0]);
+        router.push("/game");
       } else {
-        setUser(null);
-        setCookie(false);
+        setCookieAddress(null);
       }
     } else {
-      setUser(null);
-      setCookie(false);
+      setCookieAddress(null);
     }
   };
 
@@ -39,13 +36,10 @@ const useMetamask = () => {
         const accounts = await provider.send("eth_accounts", []);
         await handleAccounts(accounts);
       } catch (error) {
-        console.error("Erro ao verificar a conexão com a MetaMask:", error);
-        setUser(null);
-        setCookie(false);
+        setCookieAddress(null);
       }
     } else {
-      setUser(null);
-      setCookie(false);
+      setCookieAddress(null);
     }
   };
 
@@ -56,9 +50,7 @@ const useMetamask = () => {
         const accounts = await provider.send("eth_requestAccounts", []);
         await handleAccounts(accounts);
       } catch (error) {
-        console.error("Erro ao conectar à MetaMask:", error);
-        setUser(null);
-        setCookie(false);
+        setCookieAddress(null);
       }
     } else {
       window.alert("Por favor, instale a MetaMask para continuar");
@@ -66,34 +58,11 @@ const useMetamask = () => {
   };
 
   const logout = () => {
-    setUser(null);
-    setCookie(false);
+    setCookieAddress(null);
     router.push("/");
   };
 
-  const findUser = () => {
-    const isLoggedIn = getCookie("isLoggedIn");
-    if (user === null && isLoggedIn === "true") {
-      connectWallet();
-    }
-  };
-
-  useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      window.ethereum.on("accountsChanged", handleAccounts);
-      window.ethereum.on("chainChanged", () => {
-        checkIfWalletIsConnected();
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      router.push("/game");
-    }
-  }, [user]);
-
-  return { connectWallet, logout, findUser };
+  return { connectWallet, logout };
 };
 
 export default useMetamask;

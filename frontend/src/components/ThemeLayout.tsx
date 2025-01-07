@@ -8,7 +8,6 @@ import { Toaster } from "./ui/toaster";
 import Header from "./Header/Header";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import useMetamask from "@/hooks/useMetamask";
-import { useUserStore } from "@/stores/userStore";
 
 export default function ThemeLayout({
   children,
@@ -19,7 +18,6 @@ export default function ThemeLayout({
   const [isClient, setIsClient] = useState(false);
   const pathname = usePathname();
   const noHeaderPaths = ["/"];
-  const { findUser } = useMetamask();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -28,7 +26,6 @@ export default function ThemeLayout({
         setIsDarkMode(JSON.parse(storedTheme));
       }
       setIsClient(true);
-      findUser();
     }
   }, []);
 

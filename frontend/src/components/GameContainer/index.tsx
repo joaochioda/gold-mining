@@ -1,26 +1,16 @@
-// "use client";
-
 import { getBalance } from "@/services/token";
-import { useUserStore } from "@/stores/userStore";
-import { useEffect, useState } from "react";
+import { cookies } from "next/headers";
 
 export default async function GameContainer() {
-  // const [balance, setBalance] = useState("");
-  const user = "0x0521ed90ab0edbf89d3bba4ea3c21b300c50840c";
+  const cookieStore = await cookies();
+  const user = cookieStore.get("address");
 
-  // useEffect(() => {
-  //   if (!user) return;
-  //   async function fetchBalance() {
-  const balance = await getBalance(user!);
-  //     setBalance(balance);
-  //   }
-  //   fetchBalance();
-  // }, [user]);
+  if (!user) {
+    return <p>Usuário não conectado</p>;
+  }
 
-  return (
-    <>
-      <p>game</p>
-      {balance && <p>Balance: {balance}</p>}
-    </>
-  );
+  let balance = await getBalance(user?.value!);
+  balance = balance.slice(0, balance.indexOf(".") + 4);
+
+  return <>{balance && <p>Balance: {balance}</p>}</>;
 }

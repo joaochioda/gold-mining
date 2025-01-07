@@ -4,7 +4,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { useUserStore } from "@/stores/userStore";
+import { getAddress } from "@/utils";
 import Link from "next/link";
 
 export default function MenuBarHeader({
@@ -15,7 +15,7 @@ export default function MenuBarHeader({
     url: string;
   }[];
 }) {
-  const { user } = useUserStore();
+  const user = getAddress();
 
   return (
     <NavigationMenu className="min-w-full [&>div]:w-full hidden sm:flex mb-2">

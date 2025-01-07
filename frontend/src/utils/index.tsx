@@ -1,5 +1,12 @@
-export const setCookie = (value: boolean) => {
-  document.cookie = `isLoggedIn=${value}; path=/; max-age=31536000`; // O max-age define a validade do cookie por 1 ano
+export const setCookieAddress = (value: string | null) => {
+  document.cookie = `address=${value}; path=/; max-age=31536000`;
+};
+
+export const getAddress = (): string | null => {
+  const fullAddress = getCookie("address");
+  return fullAddress
+    ? fullAddress.slice(0, 5) + "..." + fullAddress.slice(-4)
+    : null;
 };
 
 export const getCookie = (name: string): string | null => {
