@@ -15,3 +15,7 @@ export const getCookie = (name: string): string | null => {
   if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
   return null;
 };
+
+export const sliceNumber = (number: string, start: number, end: number) => {
+  return number.slice(start, number.indexOf(".") + end);
+};
