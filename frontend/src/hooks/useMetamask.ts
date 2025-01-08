@@ -46,6 +46,7 @@ const useMetamask = () => {
   const connectWallet = async () => {
     if (typeof window.ethereum !== "undefined") {
       try {
+        await window.ethereum.enable();
         const provider = new ethers.BrowserProvider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []);
         await handleAccounts(accounts);

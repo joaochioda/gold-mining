@@ -46,6 +46,8 @@ export const getSigner = async () => {
   if (typeof window.ethereum !== "undefined") {
     //@ts-ignore
     const provider = new ethers.BrowserProvider(window.ethereum);
+    //@ts-ignore
+    await window.ethereum.enable();
     return provider.getSigner();
   } else {
     throw new Error("MetaMask não está instalada");
