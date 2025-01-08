@@ -44,7 +44,7 @@ contract Game is Ownable {
 
     mapping(uint256 => StakeInfo) public stakes;
     mapping(address => EnumerableSet.UintSet) private stakedNFTs;
-    mapping(address => bool) private hasVIPStaked;
+    mapping(address => bool) public hasVIPStaked;
 
     uint256 private constant REWARD_INTERVAL = 1 seconds;
     uint256 private constant SECONDS_IN_A_DAY = 86400; // 24 * 60 * 60

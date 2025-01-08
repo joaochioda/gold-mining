@@ -4,7 +4,7 @@
 
 ### Game contract deployed on bsc - testnet
 
-`0xb7F26F5F7CA85651507a09e364e04F1447B0F5bC`
+`0x478110DD9Ea7fb535B592948181D290F1E52aD58`
 
 ### Token deployed on bsc - testnet
 

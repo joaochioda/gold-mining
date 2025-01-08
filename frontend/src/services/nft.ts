@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { checkAllowance } from "./token";
 import { getSigner } from "@/utils";
+import { isVip } from "./game";
 
 const abi = [
   {
@@ -742,6 +743,33 @@ export async function getNFTDetails(tokenId: number) {
   const nftDetails = await contract.getNFTDetails(tokenId);
 
   return nftDetails;
+}
+
+export async function mintVIP(user: string) {
+  const alreadyHasVip = await isVip(user);
+  if (alreadyHasVip) {
+    return "alreadyHasVip";
+  }
+
+  const signer = await getSigner();
+  await checkAllowance(signer.address);
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_NFT!;
+
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  const tx = await contract.mintVIP({
+    gasLimit: 300000,
+  });
+
+  try {
+    const receipt = await tx.wait();
+
+    return receipt;
+  } catch (error) {
+    console.error(error);
+    return "error";
+  }
 }
 
 export async function mintNFT(type: number) {

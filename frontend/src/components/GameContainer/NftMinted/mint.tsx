@@ -18,7 +18,7 @@ export default function Mint({ id }: { id: string }) {
       });
       setTimeout(() => {
         window.location.reload();
-      }, 3000);
+      }, 1500);
     } else {
       toast({
         variant: "destructive",

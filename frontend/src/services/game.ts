@@ -115,6 +115,25 @@ const abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "hasVIPStaked",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "nftContract",
     outputs: [
@@ -248,6 +267,47 @@ export async function stakeNFT(tokenId: number) {
   } catch (error) {
     return "error";
   }
+}
+
+export async function totalRewards() {
+  const signer = await getSigner();
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_GAME!;
+
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  const rewards = await contract.calculateTotalRewards();
+
+  return ethers.formatUnits(rewards, 18);
+}
+
+export async function claimRewards() {
+  const signer = await getSigner();
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_GAME!;
+
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  const tx = await contract.claimRewards({
+    gasLimit: 300000,
+  });
+
+  try {
+    const receipt = await tx.wait();
+    return receipt;
+  } catch (error) {
+    return "error";
+  }
+}
+
+export async function isVip(address: string) {
+  const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC);
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_GAME!;
+
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+
+  return await contract.hasVIPStaked(address);
 }
 
 export async function getNFTs() {

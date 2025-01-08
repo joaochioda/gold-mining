@@ -14,7 +14,9 @@ export default function NftMinted({ user, nfts }: { user: string; nfts: any }) {
   const { data, error, isLoading } = useSWR(
     "getMyNFTs",
     () => getMyNFTs(user),
-    {}
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   if (isLoading) return <p>Loading...</p>;
