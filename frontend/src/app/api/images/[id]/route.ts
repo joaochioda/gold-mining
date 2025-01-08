@@ -2,12 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { join } from "path";
 import { promises as fs } from "fs";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
-  console.log("id", id);
+export async function GET() {
   const imagePath = join(process.cwd(), "public", "images", `1.jpg`);
 
   try {

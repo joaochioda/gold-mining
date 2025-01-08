@@ -11,10 +11,7 @@ const nft = {
   ],
 };
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET({ params }: any) {
   const { id } = params;
 
   if (nft) {
