@@ -38,11 +38,20 @@ export default function NftList({ user }: { user: string }) {
     const timestampString = timestamp.toString();
 
     const date = new Date(Number(timestampString) * 1000);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
+    let day: string | number = date.getDate();
+    day = day < 10 ? `0${day}` : day.toString();
+
+    let month: string | number = date.getMonth() + 1;
+    month = month < 10 ? `0${month}` : month.toString();
+
     const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+
+    let hours: string | number = date.getHours();
+    hours = hours < 10 ? `0${hours}` : hours.toString();
+
+    let minutes: string | number = date.getMinutes();
+    minutes = minutes < 10 ? `0${minutes}` : minutes.toString();
+
     return `${day}/${month}/${year} - ${hours}:${minutes}`;
   }
 

@@ -14,13 +14,13 @@ export default function ShopContainer() {
     },
     {
       name: "Machine 1",
-      price: 2,
-      rewardsPerDay: 2,
+      price: 4,
+      rewardsPerDay: 4,
     },
     {
       name: "Machine 2",
-      price: 3,
-      rewardsPerDay: 3,
+      price: 16,
+      rewardsPerDay: 16,
     },
     {
       name: "VIP",
