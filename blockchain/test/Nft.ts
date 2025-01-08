@@ -80,6 +80,24 @@ describe("GameNFT Contract", function () {
     expect(finalBalance).to.equal(initialBalance - ethers.parseEther("1"));
   });
 
+  it("should return my NFTs ids", async function () {
+    await gmine.distributeTokens(user.address, ethers.parseEther("100"));
+    await gmine
+      .connect(user)
+      .approve(gameNFT.getAddress(), ethers.parseEther("10"));
+
+    await gameNFT.connect(user).mintNFT(0);
+    await gameNFT.connect(user).mintNFT(0);
+    await gameNFT.connect(user).mintNFT(0);
+    await gameNFT.connect(user).mintNFT(0);
+    await gameNFT.connect(user).mintNFT(0);
+
+    const myNftIds = await gameNFT.getAllNFTsOfOwner(user.address);
+    expect(myNftIds).to.have.lengthOf(5);
+    expect(myNftIds).to.include(1n);
+    expect(myNftIds).to.include(5n);
+  });
+
   it("should reject minting if user does not have enough tokens", async function () {
     await gmine
       .connect(user)
