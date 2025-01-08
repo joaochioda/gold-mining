@@ -4,8 +4,9 @@ import { getNFTs } from "@/services/game";
 import { rarityDictionary, sliceNumber, typeDictionary } from "@/utils";
 import { ethers } from "ethers";
 import useSWR from "swr";
+import NftMinted from "../NftMinted";
 
-export default function NftList() {
+export default function NftList({ user }: { user: string }) {
   const { data, error, isLoading } = useSWR("nfts", getNFTs, {
     // refreshInterval: 10000,
   });
@@ -49,17 +50,24 @@ export default function NftList() {
     <>
       {isLoading && "Loading..."}
       {error && "Error"}
-      <div className="flex flex-wrap">
-        {data &&
-          handleDataNft().map((nft) => (
-            <div key={nft.id} className="border p-2 m-2 w-[240px]">
-              <p>id: {nft.id}</p>
-              <p>{typeDictionary(nft.type)}</p>
-              <p>{rarityDictionary(nft.rarity)}</p>
-              <p>{timeStampToDate(nft.stakedAt)}</p>
-              <p>{formatRewards(nft.rewards)}</p>
+
+      <div>
+        {data && (
+          <>
+            <NftMinted user={user} nfts={handleDataNft()} />
+            <div className="flex flex-wrap">
+              {handleDataNft().map((nft) => (
+                <div key={nft.id} className="border p-2 m-2 w-[240px]">
+                  <p>id: {nft.id}</p>
+                  <p>{typeDictionary(nft.type)}</p>
+                  <p>{rarityDictionary(nft.rarity)}</p>
+                  <p>{timeStampToDate(nft.stakedAt)}</p>
+                  <p>{formatRewards(nft.rewards)}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </>
+        )}
       </div>
     </>
   );
