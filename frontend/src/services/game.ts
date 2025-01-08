@@ -1,3 +1,4 @@
+import { getSigner } from "@/utils";
 import { ethers } from "ethers";
 
 const abi = [
@@ -230,16 +231,24 @@ const abi = [
   },
 ];
 
-const getSigner = async () => {
-  //@ts-ignore
-  if (typeof window.ethereum !== "undefined") {
-    //@ts-ignore
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    return provider.getSigner();
-  } else {
-    throw new Error("MetaMask não está instalada");
+export async function stakeNFT(tokenId: number) {
+  const signer = await getSigner();
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_GAME!;
+
+  const contract = new ethers.Contract(contractAddress, abi, signer);
+
+  const tx = await contract.stakeNFT(tokenId, {
+    gasLimit: 300000,
+  });
+
+  try {
+    const receipt = await tx.wait();
+    return receipt;
+  } catch (error) {
+    return "error";
   }
-};
+}
 
 export async function getNFTs() {
   const signer = await getSigner();

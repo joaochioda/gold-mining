@@ -1,3 +1,4 @@
+import { getSigner } from "@/utils";
 import { ethers } from "ethers";
 
 const abi = [
@@ -444,4 +445,42 @@ export async function getBalance(address: string) {
   const balance = await contract.balanceOf(address);
 
   return ethers.formatUnits(balance, 18);
+}
+
+export async function checkAllowance(address: string) {
+  const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC);
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_ADDRESS!;
+
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+
+  const allowance = await contract.allowance(
+    address,
+    process.env.NEXT_PUBLIC_TOKEN_NFT!
+  );
+
+  const formatedAllowance = Number(ethers.formatUnits(allowance, 18));
+
+  if (formatedAllowance < 20) {
+    await approve();
+  }
+}
+
+export async function approve() {
+  try {
+    const signer = await getSigner();
+
+    const contractAddress = process.env.NEXT_PUBLIC_TOKEN_ADDRESS!;
+
+    const contract = new ethers.Contract(contractAddress, abi, signer);
+
+    const transaction = await contract.approve(
+      process.env.NEXT_PUBLIC_TOKEN_NFT!,
+      ethers.parseUnits("100", 18)
+    );
+
+    await transaction.wait();
+  } catch (error) {
+    console.error("Error approving tokens:", error);
+  }
 }

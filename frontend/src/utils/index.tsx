@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 export const setCookieAddress = (value: string | null) => {
   document.cookie = `address=${value}; path=/; max-age=31536000`;
 };
@@ -18,4 +20,34 @@ export const getCookie = (name: string): string | null => {
 
 export const sliceNumber = (number: string, start: number, end: number) => {
   return number.slice(start, number.indexOf(".") + end);
+};
+
+export function typeDictionary(type: number) {
+  const typeDict: Record<number, string> = {
+    0: "Worker",
+    1: "Machine 1",
+    2: "Machine 2",
+  };
+  return typeDict[type];
+}
+
+export function rarityDictionary(rarity: number) {
+  const rarityDict: Record<number, string> = {
+    0: "Normal",
+    1: "Uncommon",
+    2: "Rare",
+    3: "Epic",
+  };
+  return rarityDict[rarity];
+}
+
+export const getSigner = async () => {
+  //@ts-ignore
+  if (typeof window.ethereum !== "undefined") {
+    //@ts-ignore
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    return provider.getSigner();
+  } else {
+    throw new Error("MetaMask não está instalada");
+  }
 };

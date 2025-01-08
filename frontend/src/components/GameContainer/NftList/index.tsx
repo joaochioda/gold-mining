@@ -1,7 +1,7 @@
 "use client";
 
 import { getNFTs } from "@/services/game";
-import { sliceNumber } from "@/utils";
+import { rarityDictionary, sliceNumber, typeDictionary } from "@/utils";
 import { ethers } from "ethers";
 import useSWR from "swr";
 
@@ -28,28 +28,9 @@ export default function NftList() {
     }
   }
 
-  function rarityDictionary(rarity: number) {
-    const rarityDict: Record<number, string> = {
-      0: "Normal",
-      1: "Uncommon",
-      2: "Rare",
-      3: "Epic",
-    };
-    return rarityDict[rarity];
-  }
-
   function formatRewards(rewards: string) {
     const reward = ethers.formatUnits(BigInt(rewards), 18);
     return sliceNumber(reward, 0, 4);
-  }
-
-  function typeDictionary(type: number) {
-    const typeDict: Record<number, string> = {
-      0: "Worker",
-      1: "Machine 1",
-      2: "Machine 2",
-    };
-    return typeDict[type];
   }
 
   function timeStampToDate(timestamp: BigInt) {
@@ -65,23 +46,21 @@ export default function NftList() {
   }
 
   return (
-    <p>
+    <>
       {isLoading && "Loading..."}
       {error && "Error"}
-      {data &&
-        handleDataNft().map((nft) => (
-          <div
-            key={nft.id}
-            className="border p-2 m-2 w-[240px]
-          "
-          >
-            <p>id: {nft.id}</p>
-            <p>{typeDictionary(nft.type)}</p>
-            <p>{rarityDictionary(nft.rarity)}</p>
-            <p>{timeStampToDate(nft.stakedAt)}</p>
-            <p>{formatRewards(nft.rewards)}</p>
-          </div>
-        ))}
-    </p>
+      <div className="flex flex-wrap">
+        {data &&
+          handleDataNft().map((nft) => (
+            <div key={nft.id} className="border p-2 m-2 w-[240px]">
+              <p>id: {nft.id}</p>
+              <p>{typeDictionary(nft.type)}</p>
+              <p>{rarityDictionary(nft.rarity)}</p>
+              <p>{timeStampToDate(nft.stakedAt)}</p>
+              <p>{formatRewards(nft.rewards)}</p>
+            </div>
+          ))}
+      </div>
+    </>
   );
 }

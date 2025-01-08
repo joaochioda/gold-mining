@@ -1,4 +1,6 @@
 import { ethers } from "ethers";
+import { checkAllowance } from "./token";
+import { getSigner } from "@/utils";
 
 const abi = [
   {
@@ -705,19 +707,46 @@ const abi = [
   },
 ];
 
-const getSigner = async () => {
-  //@ts-ignore
-  if (typeof window.ethereum !== "undefined") {
-    //@ts-ignore
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    return provider.getSigner();
+export async function getMyNFTs(address: string) {
+  const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC);
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_NFT!;
+
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+
+  const myNFTs = await contract.getAllNFTsOfOwner(address);
+
+  if (myNFTs.length === 0) {
+    return [];
   } else {
-    throw new Error("MetaMask não está instalada");
+    return await Promise.all(
+      myNFTs.map(async (nft: number) => {
+        const nftDetails = await contract.getNFTDetails(nft);
+        return {
+          id: nft,
+          type: nftDetails[0],
+          rarity: nftDetails[1],
+        };
+      })
+    );
   }
-};
+}
+
+export async function getNFTDetails(tokenId: number) {
+  const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC);
+
+  const contractAddress = process.env.NEXT_PUBLIC_TOKEN_NFT!;
+
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+
+  const nftDetails = await contract.getNFTDetails(tokenId);
+
+  return nftDetails;
+}
 
 export async function mintNFT(type: number) {
   const signer = await getSigner();
+  await checkAllowance(signer.address);
 
   const contractAddress = process.env.NEXT_PUBLIC_TOKEN_NFT!;
 

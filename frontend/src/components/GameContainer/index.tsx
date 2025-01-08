@@ -2,6 +2,7 @@ import { getBalance } from "@/services/token";
 import { cookies } from "next/headers";
 import NftList from "./NftList";
 import { sliceNumber } from "@/utils";
+import NftMinted from "./NftMinted";
 
 export default async function GameContainer() {
   const cookieStore = await cookies();
@@ -17,6 +18,7 @@ export default async function GameContainer() {
   return (
     <>
       {balance && <p>Balance: {balance}</p>}
+      <NftMinted user={user.value} />
       <NftList />
     </>
   );
