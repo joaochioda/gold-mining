@@ -4,15 +4,15 @@
 
 ### Game contract deployed on bsc - testnet
 
-`0xa20b0ab9158d91B92E5A9E051eF042Bba13b3560`
+`0xb7F26F5F7CA85651507a09e364e04F1447B0F5bC`
 
 ### Token deployed on bsc - testnet
 
-`0x73aec9Ec07066382Fc68ec58b074E2737916fA6D`
+`0x39F23F725480e78466DF0e5181Ea39DA9284F53E`
 
 ## NFT deployed on bsc- testnet
 
-`0x72d6ED336D19c8A28eeD2529E0EF9951e1a36425`
+`0xBD947DDc1E8B4015b5ECEC410744e68689eD1cAB`
 
 ## Some usefuls commands
 

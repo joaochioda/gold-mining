@@ -265,6 +265,25 @@ const abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+    ],
+    name: "getAllNFTsOfOwner",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
@@ -548,6 +567,19 @@ const abi = [
       },
     ],
     name: "setAuthorizedAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "baseTokenURI",
+        type: "string",
+      },
+    ],
+    name: "setBaseTokenURI",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

@@ -16,6 +16,7 @@ interface IGMINE {
 
 contract NFT is ERC721, Ownable {
     IGMINE public tokenContract;
+    string private _baseTokenURI;
 
     enum NFTType {
         Worker,
@@ -54,6 +55,30 @@ contract NFT is ERC721, Ownable {
         require(_tokenContract != address(0), "Invalid GMINE token address");
 
         tokenContract = IGMINE(_tokenContract);
+    }
+
+    function setBaseTokenURI(string memory baseTokenURI) external onlyOwner {
+        _baseTokenURI = baseTokenURI;
+    }
+
+    function tokenURI(
+        uint256 tokenId
+    ) public view virtual override returns (string memory) {
+        require(
+            ownerOf(tokenId) != address(0),
+            "ERC721Metadata: URI query for nonexistent token"
+        );
+
+        return
+            bytes(_baseTokenURI).length > 0
+                ? string(
+                    abi.encodePacked(
+                        _baseTokenURI,
+                        Strings.toString(tokenId),
+                        ".json"
+                    )
+                )
+                : "";
     }
 
     function mintNFT(NFTType _nftType) external {
