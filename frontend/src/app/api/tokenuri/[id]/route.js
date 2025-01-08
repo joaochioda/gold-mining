@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-// Suponha que você tenha um objeto ou banco de dados simulando os NFTs
 const nft = {
   name: "NFT #1",
   description: "This is the first NFT in the collection.",
@@ -11,8 +10,8 @@ const nft = {
   ],
 };
 
-export async function GET({ params }: any) {
-  const { id } = params;
+export async function GET(request, { params }) {
+  const { id } = await params;
 
   if (nft) {
     return new NextResponse(
