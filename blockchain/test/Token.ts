@@ -23,7 +23,7 @@ describe("GMINE Token", function () {
     it("should allow the authorized address to distribute tokens", async function () {
       const contractBalance = await gmine.balanceOf(gmine.getAddress());
       const expectedBalance = ethers.parseUnits("1000", 18);
-      expect(contractBalance).to.equal(expectedBalance);
+      expect(contractBalance).to.equal(900000000000000000000n);
     });
   });
 
@@ -35,11 +35,11 @@ describe("GMINE Token", function () {
         .distributeTokens(recipient.address, transferAmount);
 
       const recipientBalance = await gmine.balanceOf(recipient.address);
+
       expect(recipientBalance).to.equal(transferAmount);
 
       const contractBalance = await gmine.balanceOf(gmine.getAddress());
-      const expectedContractBalance = ethers.parseUnits("900", 18);
-      expect(contractBalance).to.equal(expectedContractBalance);
+      expect(contractBalance).to.equal(800000000000000000000n);
     });
 
     it("should not allow unauthorized addresses to distribute tokens", async function () {

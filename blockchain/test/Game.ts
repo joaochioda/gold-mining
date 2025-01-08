@@ -19,6 +19,8 @@ describe("Game Contract", function () {
   let nft: MockNFT;
   let user: SignerWithAddress;
 
+  const initialSupply = 100000000000000000000n;
+
   beforeEach(async function () {
     GMINEFactory = await ethers.getContractFactory("GMINE");
     NFTFactory = await ethers.getContractFactory("MockNFT");
@@ -101,7 +103,7 @@ describe("Game Contract", function () {
 
     const reward = await game.rewardsPerDay(0); // Worker reward
     const epsilon = 100000000000000n;
-    expect(userBalance).to.be.closeTo(reward, epsilon);
+    expect(userBalance).to.be.closeTo(reward + initialSupply, epsilon);
   });
 
   it("should receive 25% + rewards for rarity 1", async function () {
@@ -114,7 +116,7 @@ describe("Game Contract", function () {
     let reward = await game.rewardsPerDay(0);
     reward = reward + reward / 4n;
     const epsilon = 100000000000000n;
-    expect(userBalance).to.be.closeTo(reward, epsilon);
+    expect(userBalance).to.be.closeTo(reward + initialSupply, epsilon);
   });
 
   it("should receive 50% + rewards for rarity 2", async function () {
@@ -127,7 +129,7 @@ describe("Game Contract", function () {
     let reward = await game.rewardsPerDay(0);
     reward = reward + reward / 2n;
     const epsilon = 100000000000000n;
-    expect(userBalance).to.be.closeTo(reward, epsilon);
+    expect(userBalance).to.be.closeTo(reward + initialSupply, epsilon);
   });
 
   it("should receive double rewards for rarity 3", async function () {
@@ -139,13 +141,13 @@ describe("Game Contract", function () {
 
     const reward = await game.rewardsPerDay(0);
     const epsilon = 100000000000000n;
-    expect(userBalance).to.be.closeTo(reward * 2n, epsilon);
+    expect(userBalance).to.be.closeTo(reward * 2n + initialSupply, epsilon);
   });
 
   it("should double rewards when VIP NFT is staked", async function () {
     await gmine
       .connect(user)
-      .approve(nft.getAddress(), ethers.parseEther("100"));
+      .approve(nft.getAddress(), ethers.parseEther("20"));
 
     const tokenId = 1;
     await mintNFTAndStakeAndClaim(tokenId, 24 * 60 * 60 * 50);
@@ -169,7 +171,10 @@ describe("Game Contract", function () {
     const userBalance = await gmine.balanceOf(user.address);
 
     const epsilon = 100000000000000n;
-    expect(userBalance).to.be.closeTo(34000000000000000000n, epsilon);
+    expect(userBalance).to.be.closeTo(
+      34000000000000000000n + initialSupply,
+      epsilon
+    );
   });
 
   it("should correctly update staking time after claiming rewards", async function () {
