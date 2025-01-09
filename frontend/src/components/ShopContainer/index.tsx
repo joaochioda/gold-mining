@@ -3,6 +3,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { mintNFT, mintVIP } from "@/services/nft";
 import { getCookie } from "@/utils";
+import { Button } from "../ui/button";
 
 export default function ShopContainer() {
   const { toast } = useToast();
@@ -80,10 +81,12 @@ export default function ShopContainer() {
       <div>
         {nfts.map((nft, index) => (
           <div key={index} className="border p-2 m-2 w-[240px]">
-            <h2>{nft.name}</h2>
+            <p>{nft.name}</p>
             <p>Price: {nft.price}</p>
             <p>Rewards per day: {nft.rewardsPerDay}</p>
-            <button onClick={() => nft.func(index)}>Buy</button>
+            <Button onClick={() => nft.func(index)} variant={"primary"}>
+              Buy
+            </Button>
           </div>
         ))}
       </div>

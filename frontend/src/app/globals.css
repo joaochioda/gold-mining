@@ -49,4 +49,14 @@
 
 p {
   color: var(--primary-text);
+  font-size: clamp(14px, 1rem, 2vw);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary-text);
 }
