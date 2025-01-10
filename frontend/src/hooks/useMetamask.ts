@@ -2,6 +2,7 @@
 
 "use client";
 
+import useSWR, { mutate } from 'swr';
 import { useEffect } from "react";
 import { ethers } from "ethers";
 
@@ -59,6 +60,7 @@ const useMetamask = () => {
   };
 
   const logout = () => {
+    mutate(() => true, undefined, { revalidate: false });
     setCookieAddress(null);
     router.push("/");
   };
