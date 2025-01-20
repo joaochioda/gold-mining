@@ -65,6 +65,20 @@ const useMetamask = () => {
     router.push("/");
   };
 
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      window.ethereum.on("accountsChanged", () => {
+        logout();
+      });
+    }
+
+    return () => {
+      if (typeof window.ethereum !== "undefined") {
+        window.ethereum.removeListener("accountsChanged", logout);
+      }
+    };
+  }, []);
+
   return { connectWallet, logout };
 };
 
