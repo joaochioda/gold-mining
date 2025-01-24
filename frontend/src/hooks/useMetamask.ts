@@ -2,7 +2,7 @@
 
 "use client";
 
-import useSWR, { mutate } from 'swr';
+import useSWR, { mutate } from "swr";
 import { useEffect } from "react";
 import { ethers } from "ethers";
 

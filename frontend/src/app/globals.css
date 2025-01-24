@@ -60,3 +60,7 @@ h5,
 h6 {
   color: var(--primary-text);
 }
+
+* {
+  font-family: "Braah One";
+}
