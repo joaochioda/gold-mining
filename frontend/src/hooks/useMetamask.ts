@@ -8,8 +8,10 @@ import { ethers } from "ethers";
 
 import { useRouter } from "next/navigation";
 import { setCookieAddress, getCookie } from "@/utils";
+import { useToast } from "./use-toast";
 
 const useMetamask = () => {
+  const { toast } = useToast();
   const router = useRouter();
 
   const handleAccounts = async (accounts: string[]) => {
@@ -21,6 +23,12 @@ const useMetamask = () => {
         setCookieAddress(accounts[0]);
         router.push("/game");
       } else {
+        toast({
+          variant: "destructive",
+          description: `Please connect to Binance Smart Chain Testnet.`,
+          duration: 40000,
+          position: "top-center",
+        });
         setCookieAddress(null);
       }
     } else {
@@ -55,7 +63,12 @@ const useMetamask = () => {
         setCookieAddress(null);
       }
     } else {
-      window.alert("Por favor, instale a MetaMask para continuar");
+      toast({
+        variant: "destructive",
+        description: `Please install MetaMask.`,
+        duration: 40000,
+        position: "top-center",
+      });
     }
   };
 

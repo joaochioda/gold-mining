@@ -1,6 +1,5 @@
 import useMetamask from "@/hooks/useMetamask";
 import React from "react";
-import { Button } from "../ui/button";
 
 const Wallet = () => {
   const { connectWallet } = useMetamask();

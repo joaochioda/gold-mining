@@ -21,7 +21,7 @@ export default async function GameContainer() {
 
   return (
     <>
-      {balance && <p>Balance: {balance}</p>}
+      {balance && <p className="text-green">Balance: {balance}</p>}
       {vip && <p>VIP</p>}
       <NftList user={user.value} />
     </>

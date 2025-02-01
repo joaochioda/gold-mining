@@ -11,17 +11,39 @@ const ToastProvider = ToastPrimitives.Provider;
 
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Viewport
-    ref={ref}
-    className={cn(
-      "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[320px]",
-      className
-    )}
-    {...props}
-  />
-));
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport> & {
+    position?:
+      | "top-right"
+      | "top-left"
+      | "bottom-right"
+      | "bottom-left"
+      | "top-center"
+      | "bottom-center";
+  }
+>(({ className, position = "bottom-right", ...props }, ref) => {
+  console.log(position);
+
+  const positions = {
+    "top-right": "fixed top-4 right-4",
+    "top-left": "fixed top-4 left-4",
+    "bottom-right": "fixed bottom-4 right-4",
+    "bottom-left": "fixed bottom-4 left-4",
+    "top-center": "fixed top-4 left-1/2 transform -translate-x-1/2",
+    "bottom-center": "fixed bottom-4 left-1/2 transform -translate-x-1/2",
+  };
+
+  return (
+    <ToastPrimitives.Viewport
+      ref={ref}
+      className={cn(
+        "z-[100] flex max-h-screen flex-col-reverse p-4 sm:max-w-[420px] w-auto",
+        positions[position], // Adiciona a classe correspondente à posição
+        className
+      )}
+      {...props}
+    />
+  );
+});
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 const toastVariants = cva(

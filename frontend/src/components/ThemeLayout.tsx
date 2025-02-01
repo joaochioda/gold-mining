@@ -7,7 +7,6 @@ import ParamAlert from "./ParamAlert";
 import { Toaster } from "./ui/toaster";
 import Header from "./Header/Header";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import useMetamask from "@/hooks/useMetamask";
 
 export default function ThemeLayout({
   children,
@@ -38,7 +37,7 @@ export default function ThemeLayout({
   document.body.className = theme;
 
   return (
-    <div>
+    <div className="w-full bg-gradient-to-b from-[#0B0816] to-[#1F2245] min-h-screen">
       <Suspense fallback={<div>Loading...</div>}>
         <ParamAlert />
       </Suspense>
@@ -57,7 +56,9 @@ export default function ThemeLayout({
       {noHeaderPaths.includes(pathname) ? (
         children
       ) : (
-        <Header>{children}</Header>
+        <div className="max-w-[1320px] m-auto  p-4">
+          <Header>{children}</Header>
+        </div>
       )}
     </div>
   );

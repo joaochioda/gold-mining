@@ -1,6 +1,5 @@
-import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
-import MenuBarHeader from "./MenubarHeader/MenubarHeader";
-import SidebarHeader from "./SidebarHeader/SidebarHeader";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const items = [
   {
@@ -14,18 +13,66 @@ const items = [
   {
     title: "Logout",
     url: "/logout",
+    rounded: true,
   },
 ];
 
 export default function Header({ children }: { children: React.ReactNode }) {
+  const router = usePathname();
+
   return (
-    <SidebarProvider>
-      <SidebarHeader items={items} />
-      <div className="w-full">
-        <SidebarTrigger className="flex sm:hidden" />
-        <MenuBarHeader items={items} />
-        {children}
-      </div>
-    </SidebarProvider>
+    <>
+      <header
+        className="flex items-center
+        flex-col-reverse
+        sm:justify-between sm:flex-row
+      "
+      >
+        <div className="flex items-center">
+          <img
+            src={"/images/gold.webp"}
+            alt="Gold Mining"
+            width={32}
+            height={32}
+          />
+          <label className="pl-4">
+            Gold
+            <span className="text-green">MINING</span>
+          </label>
+        </div>
+
+        <div className="">
+          <nav className="">
+            <ul className="flex gap-[16px] md:gap-[90px] ">
+              {items.map((item, index) => (
+                <li
+                  key={index}
+                  className={`text-white cursor-pointer flex items-center
+                  ${
+                    item.rounded &&
+                    "border border-2 border-white rounded-[93px] px-4 py-2"
+                  }`}
+                >
+                  <Link
+                    href={item.url}
+                    className={`text-white hover:text-green
+                  ${
+                    router === item.url &&
+                    `
+                    hover:text-white
+                    opacity-50
+                    `
+                  }`}
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </header>
+      {children}
+    </>
   );
 }
