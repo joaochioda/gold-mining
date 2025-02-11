@@ -30,7 +30,7 @@ export default function Header({ children }: { children: React.ReactNode }) {
       >
         <div className="flex items-center">
           <img
-            src={"/images/gold.webp"}
+            src={"/images/gold.png"}
             alt="Gold Mining"
             width={32}
             height={32}
