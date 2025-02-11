@@ -37,7 +37,7 @@ export default function Header({ children }: { children: React.ReactNode }) {
           />
           <label className="pl-4">
             Gold
-            <span className="text-green">MINING</span>
+            <span className="text-yellow">MINING</span>
           </label>
         </div>
 
@@ -55,7 +55,7 @@ export default function Header({ children }: { children: React.ReactNode }) {
                 >
                   <Link
                     href={item.url}
-                    className={`text-white hover:text-green
+                    className={`text-white hover:text-yellow
                   ${
                     router === item.url &&
                     `

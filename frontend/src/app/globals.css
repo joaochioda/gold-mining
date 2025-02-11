@@ -18,6 +18,7 @@
     --green: #c6e06f;
     --white: #ffffff;
     --black: #0c0a19;
+    --yellow: #ffd341;
   }
 
   .dark {
@@ -25,6 +26,7 @@
     --green: #c6e06f;
     --white: #ffffff;
     --black: #0c0a19;
+    --yellow: #ffd341;
   }
 }
 #nprogress .bar {

@@ -20,6 +20,7 @@ module.exports = {
         primary: "rgba(var(--primary))",
         green: "var(--green)",
         white: "var(--white)",
+        yellow: "var(--yellow)",
         black: "var(--black)",
 
         sidebar: {
