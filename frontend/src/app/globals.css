@@ -1,6 +1,27 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary: rgba(var(--primary));
+  --color-green: var(--green);
+  --color-white: var(--white);
+  --color-yellow: var(--yellow);
+  --color-black: var(--black);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
 @layer base {
   :root {
     --radius: 0.5rem;

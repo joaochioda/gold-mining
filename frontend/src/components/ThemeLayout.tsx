@@ -37,7 +37,7 @@ export default function ThemeLayout({
   document.body.className = theme;
 
   return (
-    <div className="w-full bg-gradient-to-b from-[#0B0816] to-[#1F2245] min-h-screen">
+    <div className="w-full bg-linear-to-b from-[#0B0816] to-[#1F2245] min-h-screen">
       <Suspense fallback={<div>Loading...</div>}>
         <ParamAlert />
       </Suspense>
