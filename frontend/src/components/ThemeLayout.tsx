@@ -2,10 +2,8 @@
 
 import { Suspense, useEffect, useState } from "react";
 import ThemeToggleButton from "../components/ThemeToggleButton";
-import { usePathname } from "next/navigation";
 import ParamAlert from "./ParamAlert";
 import { Toaster } from "./ui/toaster";
-import Header from "./Header/Header";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 
 export default function ThemeLayout({
@@ -15,8 +13,6 @@ export default function ThemeLayout({
 }) {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [isClient, setIsClient] = useState(false);
-  const pathname = usePathname();
-  const noHeaderPaths = ["/"];
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -52,14 +48,7 @@ export default function ThemeLayout({
           showSpinner: false,
         }}
       />
-
-      {noHeaderPaths.includes(pathname) ? (
-        children
-      ) : (
-        <div className="max-w-[1320px] m-auto  p-4">
-          <Header>{children}</Header>
-        </div>
-      )}
+      {children}
     </div>
   );
 }

@@ -35,7 +35,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .light {
-    --nprogress-color: #c6e06f;
+    --nprogress-color: #ffd341;
     --green: #c6e06f;
     --white: #ffffff;
     --black: #0c0a19;
@@ -43,7 +43,7 @@
   }
 
   .dark {
-    --nprogress-color: #c6e06f;
+    --nprogress-color: #ffd341;
     --green: #c6e06f;
     --white: #ffffff;
     --black: #0c0a19;

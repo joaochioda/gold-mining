@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto, Braah_One } from "next/font/google";
 import ThemeLayout from "@/components/ThemeLayout";
-import "./globals.css";
-
+import "../globals.css";
+import Favicon from "/public/images/favicon.ico";
 const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-roboto",
@@ -18,9 +18,10 @@ const braahOne = Braah_One({
 export const metadata: Metadata = {
   title: "Gold Mining",
   description: "Earn gold by playing games",
+  icons: [{ rel: "icon", url: Favicon.src }],
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
