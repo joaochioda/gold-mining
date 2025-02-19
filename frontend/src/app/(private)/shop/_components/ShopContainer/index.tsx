@@ -3,7 +3,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { mintNFT, mintVIP } from "@/services/nft";
 import { getCookie } from "@/utils";
-import { Button } from "../ui/button";
+import { Button } from "../../../../../components/ui/button";
 
 export default function ShopContainer() {
   const { toast } = useToast();

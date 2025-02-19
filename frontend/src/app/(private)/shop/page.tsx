@@ -1,4 +1,4 @@
-import ShopContainer from "@/components/ShopContainer";
+import ShopContainer from "./_components/ShopContainer";
 
 export default function Shop() {
   return <ShopContainer />;

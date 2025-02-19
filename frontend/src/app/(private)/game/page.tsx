@@ -1,4 +1,4 @@
-import GameContainer from "@/components/GameContainer";
+import GameContainer from "./_components/GameContainer";
 
 export default function Game() {
   return <GameContainer />;

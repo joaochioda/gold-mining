@@ -1,6 +1,6 @@
 "use client";
 
-import Wallet from "@/components/Wallet";
+import Wallet from "./_components/StartGame";
 
 export default function Home() {
   return (

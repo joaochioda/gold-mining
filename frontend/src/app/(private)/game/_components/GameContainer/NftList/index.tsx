@@ -5,8 +5,8 @@ import { rarityDictionary, sliceNumber, typeDictionary } from "@/utils";
 import { ethers } from "ethers";
 import useSWR from "swr";
 import NftMinted from "../NftMinted";
-import Rewards from "@/components/Rewards";
-import ClaimRewards from "@/components/ClaimRewards";
+import ClaimRewards from "../ClaimRewards";
+import Rewards from "../Rewards";
 
 export default function NftList({ user }: { user: string }) {
   const { data, error, isLoading } = useSWR("nfts", getNFTs, {

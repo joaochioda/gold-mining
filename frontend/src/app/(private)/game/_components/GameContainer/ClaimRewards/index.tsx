@@ -1,6 +1,6 @@
 import { claimRewards } from "@/services/game";
-import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
 export default function ClaimRewards() {
   const { toast } = useToast();
