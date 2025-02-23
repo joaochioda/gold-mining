@@ -13,13 +13,10 @@ const Wallet = () => {
       <button
         onClick={connectWallet}
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-          w-[331px] h-[95px] bg-[#FFF]/15
-          text-[#FFF] text-[40px]
-          rounded-[195px]
-          cursor-pointer
-          hover:bg-[#FFF]/25
-          transition duration-200 ease-in-out
-          z-10
+          bg-[#FFF]/15 text-[#FFF] rounded-[195px] cursor-pointer
+          hover:bg-[#FFF]/25  transition duration-200 ease-in-out z-10
+          sm:w-[131px] sm:h-[85px] sm:text-[20px]
+          lg:w-[331px] lg:h-[95px] lg:text-[40px]
         "
       >
         START GAME

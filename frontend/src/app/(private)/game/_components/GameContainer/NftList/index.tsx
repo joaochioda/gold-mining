@@ -7,6 +7,7 @@ import useSWR from "swr";
 import NftMinted from "../NftMinted";
 import ClaimRewards from "../ClaimRewards";
 import Rewards from "../Rewards";
+import { Card } from "@/components/Card";
 
 export default function NftList({ user }: { user: string }) {
   const { data, error, isLoading } = useSWR("nfts", getNFTs, {
@@ -68,17 +69,21 @@ export default function NftList({ user }: { user: string }) {
             <ClaimRewards />
             <Rewards />
             <NftMinted user={user} nfts={handleDataNft()} />
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap gap-9">
               {handleDataNft().map(
                 (nft) =>
                   nft.type !== BigInt(3) && (
-                    <div key={nft.id} className="border p-2 m-2 w-[240px]">
+                    <Card key={nft.id}>
+                      <Card.Rarity rarity={nft.rarity} />
+                      <Card.Background
+                        machine={nft.type}
+                        timer={timeStampToDate(nft.stakedAt)}
+                      />
                       <p>id: {nft.id}</p>
-                      <p>{typeDictionary(nft.type)}</p>
-                      <p>{rarityDictionary(nft.rarity)}</p>
-                      <p>{timeStampToDate(nft.stakedAt)}</p>
                       <p>{formatRewards(nft.rewards)}</p>
-                    </div>
+                    </Card>
+                    // <div key={nft.id} className="border p-2 m-2 w-[240px]">
+                    // </div>
                   )
               )}
             </div>

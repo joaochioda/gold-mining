@@ -30,7 +30,7 @@ export default function Layout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`
-        ${roboto.className} ${braahOne.variable} light`}
+        ${roboto.className} ${braahOne.variable}`}
       >
         <ThemeLayout>{children}</ThemeLayout>
       </body>

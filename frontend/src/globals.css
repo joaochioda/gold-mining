@@ -4,15 +4,37 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {
+@theme inline {
   --color-primary: rgba(var(--primary));
-  --color-green: var(--green);
   --color-white: var(--white);
   --color-yellow: var(--yellow);
   --color-black: var(--black);
+  --color-green: var(--green);
 }
 
 @layer base {
+  * {
+    color: var(--white);
+  }
+  p {
+    font-size: clamp(14px, 1rem, 2vw);
+  }
+  [data-theme="light"] {
+    --nprogress-color: #ffd341;
+    --green: #c6e06f;
+    --white: #ffffff;
+    --black: #0c0a19;
+    --yellow: #ffd341;
+  }
+
+  [data-theme="dark"] {
+    --nprogress-color: #ffd341;
+    --green: #c6e06f;
+    --white: #ffffff;
+    --black: #0c0a19;
+    --yellow: #ffd341;
+  }
+
   *,
   ::after,
   ::before,
@@ -22,34 +44,6 @@
   }
 }
 
-@layer base {
-  :root {
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-  .light {
-    --nprogress-color: #ffd341;
-    --green: #c6e06f;
-    --white: #ffffff;
-    --black: #0c0a19;
-    --yellow: #ffd341;
-  }
-
-  .dark {
-    --nprogress-color: #ffd341;
-    --green: #c6e06f;
-    --white: #ffffff;
-    --black: #0c0a19;
-    --yellow: #ffd341;
-  }
-}
 #nprogress .bar {
   background: var(--nprogress-color) !important;
 }
@@ -58,21 +52,6 @@
   box-shadow: 0 0 10px var(--nprogress-color), 0 0 5px var(--nprogress-color) !important;
 }
 
-p {
-  color: var(--primary-text);
-  font-size: clamp(14px, 1rem, 2vw);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--white);
-}
-
 * {
   font-family: "Braah One";
-  color: var(--white);
 }

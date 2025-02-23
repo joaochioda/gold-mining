@@ -31,6 +31,16 @@ export function typeDictionary(type: number) {
   return typeDict[type];
 }
 
+export function typeImage(type: number) {
+  const typeDict: Record<number, string> = {
+    0: "/images/background/worker.png",
+    1: "/images/background/machine1.png",
+    2: "/images/background/machine2.png",
+    3: "/images/background/vip.png",
+  };
+  return typeDict[type];
+}
+
 export function rarityDictionary(rarity: number) {
   const rarityDict: Record<number, string> = {
     0: "Normal",
