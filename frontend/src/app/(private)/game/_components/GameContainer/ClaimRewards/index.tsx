@@ -1,6 +1,7 @@
 import { claimRewards } from "@/services/game";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function ClaimRewards() {
   const { toast } = useToast();
@@ -26,10 +27,14 @@ export default function ClaimRewards() {
   }
 
   return (
-    <div>
-      <Button variant={"primary"} onClick={claim}>
-        Claim rewards
-      </Button>
-    </div>
+    <button
+      className={cn(
+        "button-hover",
+        `w-[177px] bg-yellow py-2 rounded-[30px] text-black-800 text-[16px]`
+      )}
+      onClick={claim}
+    >
+      CLAIM REWARDS
+    </button>
   );
 }

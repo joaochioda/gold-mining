@@ -10,6 +10,7 @@
   --color-yellow: var(--yellow);
   --color-black: var(--black);
   --color-green: var(--green);
+  --color-black-800: var(--black-800);
 }
 
 @layer base {
@@ -24,6 +25,7 @@
     --green: #c6e06f;
     --white: #ffffff;
     --black: #0c0a19;
+    --black-800: #222222;
     --yellow: #ffd341;
   }
 
@@ -41,6 +43,15 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+  }
+
+  .button-hover:hover {
+    filter: brightness(0.9);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .disabled {
+    pointer-events: none;
   }
 }
 

@@ -1,8 +1,7 @@
 "use client";
 import { getMyNFTs } from "@/services/nft";
-import { rarityDictionary, typeDictionary } from "@/utils";
-import Mint from "./mint";
 import useSWR from "swr";
+import { Card } from "@/components/Card";
 
 interface NftMinted {
   id: string;
@@ -30,16 +29,19 @@ export default function NftMinted({ user, nfts }: { user: string; nfts: any }) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-wrap gap-9">
       {data &&
         data.map(
           (nft: NftMinted) =>
             !nftsIds().includes(nft.id) && (
-              <div key={nft.id} className="flex flex-row gap-2">
-                <p>{typeDictionary(nft.type)}</p>
-                <p>{rarityDictionary(nft.rarity)}</p>
-                <Mint id={nft.id} />
-              </div>
+              <Card key={nft.id}>
+                <Card.Rarity rarity={nft.rarity} />
+                <Card.Background machine={nft.type}>
+                  <Card.Mint id={nft.id} />
+                </Card.Background>
+                <p className="pt-[8px] text-[11px]">#ID: {nft.id}</p>
+                <div className="absolute inset-0 bg-black opacity-75 rounded-md pointer-events-none"></div>
+              </Card>
             )
         )}
     </div>

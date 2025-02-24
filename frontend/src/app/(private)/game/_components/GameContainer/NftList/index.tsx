@@ -34,7 +34,7 @@ export default function NftList({ user }: { user: string }) {
 
   function formatRewards(rewards: string) {
     const reward = ethers.formatUnits(BigInt(rewards), 18);
-    return sliceNumber(reward, 0, 4);
+    return sliceNumber(reward, 0, 3);
   }
 
   function timeStampToDate(timestamp: BigInt) {
@@ -66,9 +66,15 @@ export default function NftList({ user }: { user: string }) {
       <div>
         {data && (
           <>
-            <ClaimRewards />
             <Rewards />
+
+            <h3 className="text-[36px] py-[80px]">NFTS ON STANDBY</h3>
             <NftMinted user={user} nfts={handleDataNft()} />
+
+            <h3 className="text-[36px] pt-[96px] pb-[80px] flex items-center gap-7">
+              MY NFTS
+              <ClaimRewards />
+            </h3>
             <div className="flex flex-wrap gap-9">
               {handleDataNft().map(
                 (nft) =>
@@ -79,11 +85,9 @@ export default function NftList({ user }: { user: string }) {
                         machine={nft.type}
                         timer={timeStampToDate(nft.stakedAt)}
                       />
-                      <p>id: {nft.id}</p>
-                      <p>{formatRewards(nft.rewards)}</p>
+                      <p className="pt-[8px] text-[11px]">#ID: {nft.id}</p>
+                      <Card.Farm value={formatRewards(nft.rewards)} />
                     </Card>
-                    // <div key={nft.id} className="border p-2 m-2 w-[240px]">
-                    // </div>
                   )
               )}
             </div>

@@ -61,6 +61,7 @@ export default function Header({ children }: { children: React.ReactNode }) {
                     `
                     hover:text-white
                     opacity-50
+                    disabled
                     `
                   }`}
                   >

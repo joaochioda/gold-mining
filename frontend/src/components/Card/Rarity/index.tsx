@@ -4,8 +4,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-export default function Rarity({ rarity }: { rarity: number }) {
+export default function Rarity({
+  rarity,
+  className = "",
+}: {
+  rarity: number;
+  className?: string;
+}) {
   const images: { [key: number]: string } = {
     0: "/images/rarity/0.png",
     1: "/images/rarity/1.png",
@@ -13,7 +20,12 @@ export default function Rarity({ rarity }: { rarity: number }) {
     3: "/images/rarity/3.png",
   };
   return (
-    <div className="bg-[#4E456A] w-[73px] h-[73px] rounded-[50%] absolute right-[8px] top-[7px] flex items-center justify-center">
+    <div
+      className={cn(
+        className,
+        "bg-[#4E456A] w-[73px] h-[73px] rounded-[50%] absolute right-[8px] top-[7px] flex items-center justify-center"
+      )}
+    >
       <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger>
