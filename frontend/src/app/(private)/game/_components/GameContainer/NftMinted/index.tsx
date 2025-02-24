@@ -28,22 +28,33 @@ export default function NftMinted({ user, nfts }: { user: string; nfts: any }) {
     }
   }
 
+  function filterNfts() {
+    if (data) {
+      return data.filter((nft: NftMinted) => !nftsIds().includes(nft.id));
+    } else {
+      return [];
+    }
+  }
+
+  if (filterNfts().length === 0) {
+    return <></>;
+  }
+
   return (
-    <div className="flex flex-wrap gap-9">
-      {data &&
-        data.map(
-          (nft: NftMinted) =>
-            !nftsIds().includes(nft.id) && (
-              <Card key={nft.id}>
-                <Card.Rarity rarity={nft.rarity} />
-                <Card.Background machine={nft.type}>
-                  <Card.Mint id={nft.id} />
-                </Card.Background>
-                <p className="pt-[8px] text-[11px]">#ID: {nft.id}</p>
-                <div className="absolute inset-0 bg-black opacity-75 rounded-md pointer-events-none"></div>
-              </Card>
-            )
-        )}
-    </div>
+    <>
+      <h3 className="text-[36px] py-[80px]">NFTS ON STANDBY</h3>
+      <div className="flex flex-wrap gap-9">
+        {filterNfts().map((nft: NftMinted) => (
+          <Card key={nft.id}>
+            {nft.type != 3 && <Card.Rarity rarity={nft.rarity} />}
+            <Card.Background machine={nft.type}>
+              <Card.Mint id={nft.id} />
+            </Card.Background>
+            <p className="pt-[8px] text-[11px]">#ID: {nft.id}</p>
+            <div className="absolute inset-0 bg-black opacity-75 rounded-md pointer-events-none"></div>
+          </Card>
+        ))}
+      </div>
+    </>
   );
 }
