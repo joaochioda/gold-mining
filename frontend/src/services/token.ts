@@ -476,7 +476,7 @@ export async function approve() {
 
     const transaction = await contract.approve(
       process.env.NEXT_PUBLIC_TOKEN_NFT!,
-      ethers.parseUnits("100", 18)
+      ethers.parseUnits("10000000", 18)
     );
 
     await transaction.wait();

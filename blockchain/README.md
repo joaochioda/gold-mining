@@ -8,7 +8,7 @@
 
 ### Token deployed on bsc - testnet
 
-`0x39F23F725480e78466DF0e5181Ea39DA9284F53E`
+`0x748E7222f37c481424898b362C0C19D0bFD50FCa`
 
 ## NFT deployed on bsc- testnet
 

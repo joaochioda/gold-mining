@@ -9,7 +9,7 @@ contract GMINE is ERC20, Ownable {
     address public authorizedAddress;
 
     constructor() Ownable(msg.sender) ERC20("GMINE", "GMINE") {
-        _mint(address(this), 1000 * 10 ** decimals());
+        _mint(address(this), 1000000000000 * 10 ** decimals());
         _transfer(address(this), msg.sender, 100 * 10 ** decimals());
     }
 
