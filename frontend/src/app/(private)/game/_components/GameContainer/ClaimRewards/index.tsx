@@ -3,7 +3,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export default function ClaimRewards() {
+export default function ClaimRewards({ rewards }: { rewards: string }) {
   const { toast } = useToast();
 
   async function claim() {
@@ -30,11 +30,11 @@ export default function ClaimRewards() {
     <button
       className={cn(
         "button-hover",
-        `w-[177px] bg-yellow py-2 rounded-[30px] text-black-800 text-[16px]`
+        `px-4 bg-yellow py-2 rounded-[30px] text-black-800 text-[16px]`
       )}
       onClick={claim}
     >
-      CLAIM REWARDS
+      CLAIM REWARDS ({rewards})
     </button>
   );
 }

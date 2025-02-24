@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { mintNFT, mintVIP } from "@/services/nft";
 import { getCookie } from "@/utils";
 import { Button } from "../../../../../components/ui/button";
+import { useEffect } from "react";
 
 export default function ShopContainer() {
   const { toast } = useToast();

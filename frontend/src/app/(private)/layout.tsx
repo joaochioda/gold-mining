@@ -1,6 +1,5 @@
-"use client";
-
 import Header from "@/components/Header/Header";
+import UserInfo from "@/components/UserInfo";
 
 export default function RootLayout({
   children,
@@ -9,7 +8,10 @@ export default function RootLayout({
 }>) {
   return (
     <div className="max-w-[1280px] m-auto pb-10">
-      <Header>{children}</Header>
+      <Header>
+        <UserInfo />
+        {children}
+      </Header>
     </div>
   );
 }

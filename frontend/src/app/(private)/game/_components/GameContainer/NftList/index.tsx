@@ -8,6 +8,7 @@ import NftMinted from "../NftMinted";
 import ClaimRewards from "../ClaimRewards";
 import Rewards from "../Rewards";
 import { Card } from "@/components/Card";
+import getRewards from "../Rewards";
 
 export default function NftList({ user }: { user: string }) {
   const { data, error, isLoading } = useSWR("nfts", getNFTs, {
@@ -58,6 +59,9 @@ export default function NftList({ user }: { user: string }) {
     return `${day}/${month}/${year} - ${hours}:${minutes}`;
   }
 
+  const rewards = getRewards();
+  console.log(rewards);
+
   return (
     <>
       {isLoading && "Loading..."}
@@ -66,14 +70,12 @@ export default function NftList({ user }: { user: string }) {
       <div>
         {data && (
           <>
-            <Rewards />
-
             <h3 className="text-[36px] py-[80px]">NFTS ON STANDBY</h3>
             <NftMinted user={user} nfts={handleDataNft()} />
 
             <h3 className="text-[36px] pt-[96px] pb-[80px] flex items-center gap-7">
               MY NFTS
-              <ClaimRewards />
+              <ClaimRewards rewards={rewards} />
             </h3>
             <div className="flex flex-wrap gap-9">
               {handleDataNft().map(

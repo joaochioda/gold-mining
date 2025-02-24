@@ -2,7 +2,7 @@ import { totalRewards } from "@/services/game";
 import { sliceNumber } from "@/utils";
 import useSWR from "swr";
 
-export default function Rewards() {
+export default function getRewards() {
   const {
     data: rewardsData,
     error: rewardsError,
@@ -11,7 +11,5 @@ export default function Rewards() {
     revalidateOnFocus: false,
   });
 
-  return (
-    <>{rewardsData && <p>Total rewards: {sliceNumber(rewardsData, 0, 4)}</p>}</>
-  );
+  return rewardsData ? sliceNumber(rewardsData, 0, 4) : "";
 }
