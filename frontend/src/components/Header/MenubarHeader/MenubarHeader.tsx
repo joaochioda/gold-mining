@@ -25,9 +25,7 @@ export default function MenuBarHeader({
           {items.map((item) => (
             <NavigationMenuItem key={item.title}>
               <Link href={item.url} passHref>
-                <Button className="min-w-[128px]" variant={"primary"}>
-                  {item.title}
-                </Button>
+                <Button className="min-w-[128px]">{item.title}</Button>
               </Link>
             </NavigationMenuItem>
           ))}

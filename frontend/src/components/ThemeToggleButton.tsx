@@ -19,7 +19,6 @@ export default function ThemeToggleButton({
   return (
     <div className="fixed bottom-10 right-10">
       <Button
-        variant="primary"
         onClick={handleToggle}
         className="w-10 h-10 p-0 min-w-0 rounded-full"
       >

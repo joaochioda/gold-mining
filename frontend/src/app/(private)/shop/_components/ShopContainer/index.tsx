@@ -84,9 +84,7 @@ export default function ShopContainer() {
             <p>{nft.name}</p>
             <p>Price: {nft.price}</p>
             <p>Rewards per day: {nft.rewardsPerDay}</p>
-            <Button onClick={() => nft.func(index)} variant={"primary"}>
-              Buy
-            </Button>
+            <Button onClick={() => nft.func(index)}>Buy</Button>
           </div>
         ))}
       </div>

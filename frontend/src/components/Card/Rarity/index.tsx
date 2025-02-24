@@ -19,6 +19,14 @@ export default function Rarity({
     2: "/images/rarity/2.png",
     3: "/images/rarity/3.png",
   };
+
+  const bonusRarity: { [key: number]: string } = {
+    0: "+0%",
+    1: "+25%",
+    2: "+50%",
+    3: "+100%",
+  };
+
   return (
     <div
       className={cn(
@@ -37,6 +45,7 @@ export default function Rarity({
           </TooltipTrigger>
           <TooltipContent>
             <p>Rarity: {Number(rarity) + 1}</p>
+            <p>Bonus: {bonusRarity[rarity]}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
