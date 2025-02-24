@@ -60,7 +60,6 @@ export default function NftList({ user }: { user: string }) {
   }
 
   const rewards = getRewards();
-  console.log(rewards);
 
   return (
     <>

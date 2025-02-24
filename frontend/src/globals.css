@@ -53,14 +53,14 @@
   .disabled {
     pointer-events: none;
   }
-}
 
-#nprogress .bar {
-  background: var(--nprogress-color) !important;
-}
+  #nprogress .bar {
+    background: #ffd341 !important;
+  }
 
-#nprogress .peg {
-  box-shadow: 0 0 10px var(--nprogress-color), 0 0 5px var(--nprogress-color) !important;
+  #nprogress .peg {
+    box-shadow: 0 0 10px #ffd341, 0 0 5px #ffd341 !important;
+  }
 }
 
 * {
