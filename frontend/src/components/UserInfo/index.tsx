@@ -34,7 +34,7 @@ export default async function UserInfo() {
         <p>{slicedAddress}</p>
       </div>
       <div className="w-px h-10 bg-gray-200" />
-      <p>Balance: {balance}</p>
+      <p>Balance {balance}</p>
       {vip && <div className="w-px h-10 bg-gray-200" />}
       {vip && (
         <TooltipProvider delayDuration={100}>

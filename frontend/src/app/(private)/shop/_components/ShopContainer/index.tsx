@@ -6,6 +6,8 @@ import { getCookie } from "@/utils";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/Card";
 import { isVip } from "@/services/game";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export default function ShopContainer() {
   const { toast } = useToast();
@@ -97,19 +99,35 @@ export default function ShopContainer() {
         "Loading..."
       ) : (
         <div className="flex flex-wrap gap-9">
-          {nfts.map(
-            (nft, index) =>
-              isVipState && nft.type === 3 ? null : (
-                <Card key={nft.type}>
-                  <Card.Background machine={nft.type} />
-                </Card>
-              )
-            // <div key={index} className="border p-2 m-2 w-[240px]">
-            //   <p>{nft.name}</p>
-            //   <p>Price: {nft.price}</p>
-            //   <p>Rewards per day: {nft.rewardsPerDay}</p>
-            //   <Button onClick={() => nft.func(index)}>Buy</Button>
-            // </div>
+          {nfts.map((nft, index) =>
+            isVipState && nft.type === 3 ? null : (
+              <Card key={nft.type}>
+                <Card.Background machine={nft.type} />
+                <div className="pt-2">
+                  <div className="flex items-center align-center gap-2">
+                    <Image
+                      src={`/icons/arrow-up.png`}
+                      width={11}
+                      height={11}
+                      alt="arrow"
+                    />
+                    <p className="text-[12px] text-[#7FDF86] font-light">{`Farm ${nft.price}/day`}</p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="text-[18px] text-yellow ">${nft.price}</p>
+                    <button
+                      className={cn(
+                        "button-hover",
+                        `px-4 bg-yellow py-1 rounded-[30px] text-black-800 text-[12px]`
+                      )}
+                      onClick={() => nft.func(index)}
+                    >
+                      PURCHASE
+                    </button>
+                  </div>
+                </div>
+              </Card>
+            )
           )}
         </div>
       )}
