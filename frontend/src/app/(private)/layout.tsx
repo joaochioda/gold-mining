@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="max-w-[1280px] m-auto pb-10">
+    <div className="max-w-[1280px] m-auto pb-10 px-4 sm:px-4 xl:px-0">
       <Header>
         <UserInfo />
         {children}
