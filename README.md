@@ -1,4 +1,4 @@
-# WIP - Simple gaming on blockchain
+# Simple gaming on blockchain
 
 ## Backend - Blockchain
 
