@@ -18,7 +18,7 @@ export default function NftMinted({ user, nfts }: { user: string; nfts: any }) {
     }
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p className="py-[80px]">Loading...</p>;
 
   function nftsIds() {
     if (nfts) {

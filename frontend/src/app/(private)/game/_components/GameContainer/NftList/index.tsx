@@ -63,7 +63,7 @@ export default function NftList({ user }: { user: string }) {
 
   return (
     <>
-      {isLoading && "Loading..."}
+      {isLoading && <p className="py-[80px] ">Loading...</p>}
       {error && "Error"}
 
       <div>

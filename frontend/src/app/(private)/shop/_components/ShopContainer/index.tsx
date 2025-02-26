@@ -111,7 +111,7 @@ export default function ShopContainer() {
                       height={11}
                       alt="arrow"
                     />
-                    <p className="text-[12px] text-[#7FDF86] font-light">{`Farm ${nft.price}/day`}</p>
+                    <p className="text-[12px] text-[#7FDF86] font-light">{`Farm ${nft.rewardsPerDay}/day`}</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-[18px] text-yellow ">${nft.price}</p>
