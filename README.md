@@ -11,7 +11,7 @@
 
 ## Mechanics:
 
-You will receive a worker (NFT) that mines X gold per second. Over time, you can buy more workers or machines that are more efficient.
+You will buy a worker (NFT) that mines X gold per second. Over time, you can buy more workers or machines that are more efficient.
 
 ## Deployed project
 
