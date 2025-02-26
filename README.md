@@ -2,7 +2,7 @@
 
 ## Backend - Blockchain
 
-## Frontend - Next.js 15
+## Frontend - Next.js 15 && Tailwind CSS v4
 
 ## Mechanics:
 
