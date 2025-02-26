@@ -4,6 +4,11 @@
 
 ## Frontend - Next.js 15 && Tailwind CSS v4
 
+## Infos
+- To access the project, you need to connect to the[BSC Testnet](https://medium.com/spartanprotocol/how-to-connect-metamask-to-bsc-testnet-7d89c111ab2)
+- The first worker ($1) is free.
+- You need to have BNB (Testnet) in your wallet to make transactions.
+
 ## Mechanics:
 
 You will receive a worker (NFT) that mines X gold per second. Over time, you can buy more workers or machines that are more efficient.
